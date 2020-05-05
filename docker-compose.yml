@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+
+      dockerfile: config/containers/app/Dockerfile
+
+    depends_on:
+      - db
+    ports:
+      - '3001:3000'
+
+    volumes:
+      - .:/var/www/app
+
+    # labels:
+    #   com.datadoghq.ad.logs: '["<LOGS_CONFIG>"]'
+
+    environment:
+      PG_PASSWORD: password
+
+  # agent section
+
+  dd-agent:
+    image: "datadog/agent:latest"
+    environment:
+      - DD_API_KEY="<DATADOG_API_KEY>" 
+      - DD_APM_ENABLED=true
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_PROCESS_AGENT_ENABLED=true
+    ports:
+      - "8126:8126"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "datadog-agent", "service": "agent"}]'

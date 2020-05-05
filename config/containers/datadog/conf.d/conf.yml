@@ -1,0 +1,4 @@
+- type: file
+    path: /app/log/development.log
+    service: development-rails-api
+    source: ruby
