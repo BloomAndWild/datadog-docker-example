@@ -28,9 +28,9 @@ RUN bundle install
 COPY . .
 
 # Add a script to be executed every time the container starts.
-COPY test_script.sh /usr/bin/
-RUN chmod +x /usr/bin/test_script.sh
-ENTRYPOINT ["test_script.sh"]
+COPY start.sh /usr/bin/
+RUN chmod +x /usr/bin/start.sh
+ENTRYPOINT ["start.sh"]
 EXPOSE 3000
 
 # Start the main process.

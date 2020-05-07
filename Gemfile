@@ -10,9 +10,8 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 
-gem 'ddtrace'
+# gem 'ddtrace'
 gem "lograge"
-gem "logstash-event"
 gem 'active_model_serializers'
 gem 'faker'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
